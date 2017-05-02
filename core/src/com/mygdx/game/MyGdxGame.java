@@ -9,26 +9,23 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class MyGdxGame extends ApplicationAdapter {
-	TextureRegion down, up, left, right;
 	SpriteBatch batch;
-	Texture img;
-	boolean canJump, faceRight = true;
-
+	TextureRegion down, up, right, left;
 	float x, y, xv, yv;
-	static final float MAX_VELOCITY = 500;
-	static final float MAX_JUMP_VELOCITY = 2000;
-	static final int GRAVITY = -50;
+	boolean faceRight = true;
+	boolean faceUp = true;
 
 	static final int WIDTH = 18;
 	static final int HEIGHT = 26;
 
 	static final int DRAW_WIDTH = WIDTH*3;
 	static final int DRAW_HEIGHT = HEIGHT*3;
-	
+
+	static final float MAX_VELOCITY = 500;
+
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-		img = new Texture("tiles.png");
 		Texture tiles = new Texture("tiles.png");
 		TextureRegion[][] grid = TextureRegion.split(tiles, 16, 16);
 		down = grid[6][0];
@@ -37,29 +34,17 @@ public class MyGdxGame extends ApplicationAdapter {
 		left = new TextureRegion(right);
 		left.flip(true, false);
 	}
-
+	@Override
 	public void render () {
 		move();
-
-		TextureRegion img;
-		if (y > 0) {
-			img = up;
-		}
-		else {
-			img = right;
-		}
 
 		Gdx.gl.glClearColor(0.5f, 0.5f, 1, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.begin();
-		if (faceRight) {
-			batch.draw(img, x, y, DRAW_WIDTH, DRAW_HEIGHT);
-		}
-		else {
-			batch.draw(img, x + DRAW_WIDTH, y, DRAW_WIDTH * -1, DRAW_HEIGHT);
-		}
+		batch.draw(right, x, y, DRAW_WIDTH, DRAW_HEIGHT);
 		batch.end();
 	}
+
 	float decelerate(float velocity) {
 		float deceleration = 0.95f; // the closer to 1, the slower the deceleration
 		velocity *= deceleration;
@@ -70,7 +55,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	}
 
 	void move() {
-		if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+		if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
 			yv = MAX_VELOCITY;
 		}
 		if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
@@ -82,24 +67,14 @@ public class MyGdxGame extends ApplicationAdapter {
 		if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
 			xv = MAX_VELOCITY * -1;
 		}
-		yv += GRAVITY;
 
 		y += yv * Gdx.graphics.getDeltaTime();
 		x += xv * Gdx.graphics.getDeltaTime();
 
-		if (y < 0) {
-			y = 0;
-			canJump = true;
-		}
-
 		yv = decelerate(yv);
 		xv = decelerate(xv);
-
 	}
 
-	@Override
-	public void dispose () {
-		batch.dispose();
-		img.dispose();
-	}
+
 }
+
