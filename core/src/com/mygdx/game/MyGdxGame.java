@@ -12,8 +12,8 @@ public class MyGdxGame extends ApplicationAdapter {
 	SpriteBatch batch;
 	TextureRegion down, up, right, left;
 	float x, y, xv, yv;
-	boolean faceRight = true;
-	boolean faceUp = true;
+
+	boolean walkUp;
 
 	static final int WIDTH = 18;
 	static final int HEIGHT = 26;
@@ -57,6 +57,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	void move() {
 		if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
 			yv = MAX_VELOCITY;
+			walkUp = false;
 		}
 		if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
 			yv = MAX_VELOCITY * -1;
