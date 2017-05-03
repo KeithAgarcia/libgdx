@@ -12,6 +12,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	SpriteBatch batch;
 	TextureRegion down, up, right, left;
 	float x, y, xv, yv;
+	boolean canJump, faceRight = true;
 
 
 
@@ -38,10 +39,20 @@ public class MyGdxGame extends ApplicationAdapter {
 	public void render () {
 		move();
 
+		TextureRegion img;
+
+			img = right;
+
+
 		Gdx.gl.glClearColor(0.5f, 0.5f, 1, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.begin();
-		batch.draw(right, x, y, DRAW_WIDTH, DRAW_HEIGHT);
+		if (faceRight) {
+			batch.draw(img, x, y, DRAW_WIDTH, DRAW_HEIGHT);
+		}
+		else {
+			batch.draw(img, x + DRAW_WIDTH, y, DRAW_WIDTH * -1, DRAW_HEIGHT);
+		}
 		batch.end();
 	}
 
@@ -63,9 +74,11 @@ public class MyGdxGame extends ApplicationAdapter {
 		}
 		if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
 			xv = MAX_VELOCITY;
+			faceRight = true;
 		}
 		if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
 			xv = MAX_VELOCITY * -1;
+			faceRight = false;
 		}
 
 		y += yv * Gdx.graphics.getDeltaTime();
