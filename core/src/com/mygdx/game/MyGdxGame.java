@@ -24,8 +24,8 @@ public class MyGdxGame extends ApplicationAdapter {
 	static final int DRAW_WIDTH = WIDTH * 3;
 	static final int DRAW_HEIGHT = HEIGHT * 3;
 
-	static final float MAX_VELOCITY = 500;
-	static final float MAX_SPRINT = 1000;
+	static final float MAX_VELOCITY = 200;
+	static final float MAX_SPRINT = 500;
 
 	@Override
 	public void create() {
