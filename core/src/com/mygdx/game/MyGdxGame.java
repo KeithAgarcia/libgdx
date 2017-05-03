@@ -15,6 +15,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	float x, y, xv, yv;
 	Animation walk;
 	Animation upwalk;
+	Animation downwalk;
 	float time;
 
 	static final int WIDTH = 18;
@@ -33,6 +34,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		TextureRegion[][] grid = TextureRegion.split(tiles, 16, 16);
 		walk = new Animation(0.2f, grid[6][2], grid[6][3]);
 		upwalk = new Animation(0.2f, grid[6][1], grid[7][1]);
+		downwalk = new Animation(0.2f, grid[6][0], grid[7][0]);
 
 		down = grid[6][0];
 		up = grid[6][1];
@@ -57,6 +59,7 @@ public class MyGdxGame extends ApplicationAdapter {
 			batch.draw(up, x, y, DRAW_WIDTH, DRAW_HEIGHT);
 		}
 		if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+			down = downwalk.getKeyFrame(time, true);
 			batch.draw(down, x, y, DRAW_WIDTH, DRAW_HEIGHT);
 		}
 		if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
@@ -113,16 +116,16 @@ public class MyGdxGame extends ApplicationAdapter {
 				xv = MAX_VELOCITY * -1;
 			}
 		}
-		if (y < -0) {
-			y = 500;
+		if (y < -2) {
+			y = 600;
 		}
-		if (y > 500) {
+		if (y > 600) {
 			y = 0;
 		}
-		if (x < 0){
-			x = 700;
+		if (x < -2){
+			x = 800;
 		}
-		if (x > 700){
+		if (x > 800){
 			x = 0;
 		}
 
