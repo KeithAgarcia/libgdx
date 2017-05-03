@@ -81,7 +81,6 @@ public class MyGdxGame extends ApplicationAdapter {
 				yv = MAX_SPRINT;
 		} else {
 				yv = MAX_VELOCITY;
-				faceUp = true;
 			}
 		}
 		if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
@@ -89,7 +88,6 @@ public class MyGdxGame extends ApplicationAdapter {
 				yv = MAX_SPRINT * -1;
 			} else {
 				yv = MAX_VELOCITY * -1;
-				faceUp = false;
 			}
 		}
 		if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
@@ -98,7 +96,6 @@ public class MyGdxGame extends ApplicationAdapter {
 
 			}else {
 				xv = MAX_VELOCITY;
-				faceRight = true;
 			}
 		}
 		if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
