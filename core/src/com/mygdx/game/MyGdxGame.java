@@ -14,7 +14,6 @@ public class MyGdxGame extends ApplicationAdapter {
 	float x, y, xv, yv;
 	boolean faceUp, faceRight = true;
 
-
 	static final int WIDTH = 18;
 	static final int HEIGHT = 26;
 
@@ -68,7 +67,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
 
 	float decelerate(float velocity) {
-		float deceleration = 0.95f; // the closer to 1, the slower the deceleration
+		float deceleration = 0.0003f; // the closer to 1, the slower the deceleration
 		velocity *= deceleration;
 		if (Math.abs(velocity) < 1) {
 			velocity = 0;
@@ -110,6 +109,18 @@ public class MyGdxGame extends ApplicationAdapter {
 				xv = MAX_VELOCITY * -1;
 				faceRight = false;
 			}
+		}
+		if (y < -0) {
+			y = 500;
+		}
+		if (y > 500) {
+			y = 0;
+		}
+		if (x < 0){
+			x = 700;
+		}
+		if (x > 700){
+			x = 0;
 		}
 
 		y += yv * Gdx.graphics.getDeltaTime();
