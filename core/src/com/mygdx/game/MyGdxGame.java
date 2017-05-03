@@ -12,7 +12,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	SpriteBatch batch;
 	TextureRegion down, up, right, left;
 	float x, y, xv, yv;
-	boolean canJump, faceRight = true;
+	boolean faceUp, faceRight = true;
 
 
 
@@ -40,21 +40,33 @@ public class MyGdxGame extends ApplicationAdapter {
 		move();
 
 		TextureRegion img;
+		TextureRegion upimg;
 
 			img = right;
+			upimg = up;
+
 
 
 		Gdx.gl.glClearColor(0.5f, 0.5f, 1, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.begin();
-		if (faceRight) {
-			batch.draw(img, x, y, DRAW_WIDTH, DRAW_HEIGHT);
+		batch.draw(down, x, y, DRAW_WIDTH, DRAW_HEIGHT);
+		if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
+			batch.draw(up, x, y, DRAW_WIDTH, DRAW_HEIGHT);
 		}
-		else {
-			batch.draw(img, x + DRAW_WIDTH, y, DRAW_WIDTH * -1, DRAW_HEIGHT);
+		if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+			batch.draw(down, x, y, DRAW_WIDTH, DRAW_HEIGHT);
 		}
-		batch.end();
+		if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+			batch.draw(right, x, y, DRAW_WIDTH, DRAW_HEIGHT);
+		}
+		if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+			batch.draw(left, x, y, DRAW_WIDTH, DRAW_HEIGHT);
+		}
+			batch.end();
 	}
+
+
 
 	float decelerate(float velocity) {
 		float deceleration = 0.95f; // the closer to 1, the slower the deceleration
@@ -68,9 +80,11 @@ public class MyGdxGame extends ApplicationAdapter {
 	void move() {
 		if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
 			yv = MAX_VELOCITY;
+			faceUp = true;
 		}
 		if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
 			yv = MAX_VELOCITY * -1;
+			faceUp = false;
 		}
 		if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
 			xv = MAX_VELOCITY;
