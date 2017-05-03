@@ -15,17 +15,17 @@ public class MyGdxGame extends ApplicationAdapter {
 	boolean faceUp, faceRight = true;
 
 
-
 	static final int WIDTH = 18;
 	static final int HEIGHT = 26;
 
-	static final int DRAW_WIDTH = WIDTH*3;
-	static final int DRAW_HEIGHT = HEIGHT*3;
+	static final int DRAW_WIDTH = WIDTH * 3;
+	static final int DRAW_HEIGHT = HEIGHT * 3;
 
 	static final float MAX_VELOCITY = 500;
+	static final float MAX_SPRINT = 1000;
 
 	@Override
-	public void create () {
+	public void create() {
 		batch = new SpriteBatch();
 		Texture tiles = new Texture("tiles.png");
 		TextureRegion[][] grid = TextureRegion.split(tiles, 16, 16);
@@ -35,16 +35,16 @@ public class MyGdxGame extends ApplicationAdapter {
 		left = new TextureRegion(right);
 		left.flip(true, false);
 	}
+
 	@Override
-	public void render () {
+	public void render() {
 		move();
 
 		TextureRegion img;
 		TextureRegion upimg;
 
-			img = right;
-			upimg = up;
-
+		img = right;
+		upimg = up;
 
 
 		Gdx.gl.glClearColor(0.5f, 0.5f, 1, 1);
@@ -63,9 +63,8 @@ public class MyGdxGame extends ApplicationAdapter {
 		if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
 			batch.draw(left, x, y, DRAW_WIDTH, DRAW_HEIGHT);
 		}
-			batch.end();
+		batch.end();
 	}
-
 
 
 	float decelerate(float velocity) {
@@ -79,20 +78,38 @@ public class MyGdxGame extends ApplicationAdapter {
 
 	void move() {
 		if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
-			yv = MAX_VELOCITY;
-			faceUp = true;
+			if (Gdx.input.isKeyPressed(Input.Keys.SPACE)){
+				yv = MAX_SPRINT;
+		} else {
+				yv = MAX_VELOCITY;
+				faceUp = true;
+			}
 		}
 		if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-			yv = MAX_VELOCITY * -1;
-			faceUp = false;
+			if(Gdx.input.isKeyPressed(Input.Keys.SPACE)){
+				yv = MAX_SPRINT * -1;
+			} else {
+				yv = MAX_VELOCITY * -1;
+				faceUp = false;
+			}
 		}
 		if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-			xv = MAX_VELOCITY;
-			faceRight = true;
+			if(Gdx.input.isKeyPressed(Input.Keys.SPACE)){
+				xv = MAX_SPRINT;
+
+			}else {
+				xv = MAX_VELOCITY;
+				faceRight = true;
+			}
 		}
 		if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-			xv = MAX_VELOCITY * -1;
-			faceRight = false;
+			if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+				xv = MAX_SPRINT * -1;
+
+			} else {
+				xv = MAX_VELOCITY * -1;
+				faceRight = false;
+			}
 		}
 
 		y += yv * Gdx.graphics.getDeltaTime();
@@ -101,7 +118,8 @@ public class MyGdxGame extends ApplicationAdapter {
 		yv = decelerate(yv);
 		xv = decelerate(xv);
 	}
-
-
 }
+
+
+
 
