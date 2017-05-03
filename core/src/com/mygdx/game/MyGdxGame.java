@@ -32,10 +32,10 @@ public class MyGdxGame extends ApplicationAdapter {
 		batch = new SpriteBatch();
 		Texture tiles = new Texture("tiles.png");
 		TextureRegion[][] grid = TextureRegion.split(tiles, 16, 16);
+
 		walk = new Animation(0.2f, grid[6][2], grid[6][3]);
 		upwalk = new Animation(0.2f, grid[6][1], grid[7][1]);
 		downwalk = new Animation(0.2f, grid[6][0], grid[7][0]);
-
 		down = grid[6][0];
 		up = grid[6][1];
 		right = grid[6][3];
@@ -47,8 +47,6 @@ public class MyGdxGame extends ApplicationAdapter {
 	public void render() {
 		time += Gdx.graphics.getDeltaTime();
 		move();
-
-
 
 		Gdx.gl.glClearColor(0.5f, 0.5f, 1, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -75,7 +73,6 @@ public class MyGdxGame extends ApplicationAdapter {
 		batch.end();
 	}
 
-
 	float decelerate(float velocity) {
 		float deceleration = 0.0003f; // the closer to 1, the slower the deceleration
 		velocity *= deceleration;
@@ -101,10 +98,10 @@ public class MyGdxGame extends ApplicationAdapter {
 			}
 		}
 		if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-			if(Gdx.input.isKeyPressed(Input.Keys.SPACE)){
+			if(Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
 				xv = MAX_SPRINT;
 
-			}else {
+			} else {
 				xv = MAX_VELOCITY;
 			}
 		}
