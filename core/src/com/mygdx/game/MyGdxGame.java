@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
@@ -12,7 +13,9 @@ public class MyGdxGame extends ApplicationAdapter {
 	SpriteBatch batch;
 	TextureRegion down, up, right, left;
 	float x, y, xv, yv;
-	boolean faceUp, faceRight = true;
+	Animation walk;
+	Animation upwalk;
+	float time;
 
 	static final int WIDTH = 18;
 	static final int HEIGHT = 26;
@@ -28,6 +31,9 @@ public class MyGdxGame extends ApplicationAdapter {
 		batch = new SpriteBatch();
 		Texture tiles = new Texture("tiles.png");
 		TextureRegion[][] grid = TextureRegion.split(tiles, 16, 16);
+		walk = new Animation(0.2f, grid[6][2], grid[6][3]);
+		upwalk = new Animation(0.2f, grid[6][1], grid[7][1]);
+
 		down = grid[6][0];
 		up = grid[6][1];
 		right = grid[6][3];
@@ -37,13 +43,9 @@ public class MyGdxGame extends ApplicationAdapter {
 
 	@Override
 	public void render() {
+		time += Gdx.graphics.getDeltaTime();
 		move();
 
-		TextureRegion img;
-		TextureRegion upimg;
-
-		img = right;
-		upimg = up;
 
 
 		Gdx.gl.glClearColor(0.5f, 0.5f, 1, 1);
@@ -51,15 +53,20 @@ public class MyGdxGame extends ApplicationAdapter {
 		batch.begin();
 		batch.draw(down, x, y, DRAW_WIDTH, DRAW_HEIGHT);
 		if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
+			up = upwalk.getKeyFrame(time, true);
 			batch.draw(up, x, y, DRAW_WIDTH, DRAW_HEIGHT);
 		}
 		if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
 			batch.draw(down, x, y, DRAW_WIDTH, DRAW_HEIGHT);
 		}
 		if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+			right = walk.getKeyFrame(time, true);
 			batch.draw(right, x, y, DRAW_WIDTH, DRAW_HEIGHT);
 		}
 		if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+			right = walk.getKeyFrame(time, true);
+			left = new TextureRegion(right);
+			left.flip(true, false);
 			batch.draw(left, x, y, DRAW_WIDTH, DRAW_HEIGHT);
 		}
 		batch.end();
@@ -104,7 +111,6 @@ public class MyGdxGame extends ApplicationAdapter {
 
 			} else {
 				xv = MAX_VELOCITY * -1;
-				faceRight = false;
 			}
 		}
 		if (y < -0) {
